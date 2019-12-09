@@ -1,0 +1,4 @@
+# short-description: Create SD card image for Generaic Devices
+# long-description: Creates a partitioned SD card image for Generic Devices.
+
+include openavr-common.inc

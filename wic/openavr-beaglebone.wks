@@ -1,0 +1,6 @@
+# short-description: Create SD card image for Beaglebone
+# long-description: Creates a partitioned SD card image for Beaglebone.
+
+include openavr-common.inc
+
+bootloader --append="console=ttyS0,115200"
