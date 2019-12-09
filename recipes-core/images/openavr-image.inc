@@ -12,6 +12,7 @@ IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 
 IMAGE_FEATURES += "ssh-server-openssh"
 IMAGE_FEATURES += "package-management"
+IMAGE_FEATURES += "read-only-rootfs"
 
 IMAGE_FEATURES_remove = "splash"
 
