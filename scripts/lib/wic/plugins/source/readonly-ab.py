@@ -22,6 +22,7 @@ from wic.pluginbase import SourcePlugin
 from wic.misc import exec_cmd, get_bitbake_var
 
 logger = logging.getLogger('wic')
+logger.setLevel(logging.DEBUG)
 
 class BootimgPartitionPlugin(SourcePlugin):
     """
@@ -29,7 +30,7 @@ class BootimgPartitionPlugin(SourcePlugin):
     listed in IMAGE_BOOT_FILES bitbake variable.
     """
 
-    name = 'bootimg-partition'
+    name = 'readonly-ab'
 
     @classmethod
     def do_configure_partition(cls, part, source_params, cr, cr_workdir,
@@ -173,21 +174,33 @@ class BootimgPartitionPlugin(SourcePlugin):
         """
         hdddir = "%s/boot.%d" % (cr_workdir, part.lineno)
 
+        imgdeploy_dir = get_bitbake_var("IMGDEPLOYDIR")
+
+        logger.debug("TROTH: do_prepare_partition: IMGDEPLYDIR: %s", imgdeploy_dir)
+        logger.debug("TROTH: do_prepare_partition: kernel_dir: %s", kernel_dir)
+        logger.debug("TROTH: do_prepare_partition: bootimg_dir: %s", bootimg_dir)
+
         if not kernel_dir:
             kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
             if not kernel_dir:
                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
 
-        logger.debug('Kernel dir: %s', bootimg_dir)
-
+        logger.debug('Kernel dir: %s', kernel_dir)
 
         for task in cls.install_task:
+            install_success = False
             src_path, dst_path = task
-            logger.debug('Install %s as %s', src_path, dst_path)
-            install_cmd = "install -m 0644 -D %s %s" \
-                          % (os.path.join(kernel_dir, src_path),
-                             os.path.join(hdddir, dst_path))
-            exec_cmd(install_cmd)
+            for base_dir in (kernel_dir, imgdeploy_dir):
+                src = os.path.join(base_dir, src_path)
+                dst = os.path.join(hdddir, dst_path)
+                if os.path.exists(src):
+                    logger.debug('Install %s as %s', src_path, dst_path)
+                    install_cmd = "install -m 0644 -D %s %s" % (src, dst)
+                    exec_cmd(install_cmd)
+                    install_success = True
+                    break
+            if not install_success:
+                raise WicError("Failed to install %s as %s" % (src_path, dst_path))
 
         logger.debug('Prepare boot partition using rootfs in %s', hdddir)
         part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,

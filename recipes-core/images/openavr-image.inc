@@ -12,6 +12,10 @@ IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 
 IMAGE_FEATURES += "ssh-server-openssh"
 IMAGE_FEATURES += "package-management"
+IMAGE_FEATURES += "read-only-rootfs"
+
+# Force squashfs image to get built before WIC is run.
+do_image_wic[recrdeptask] += "do_image_squashfs_xz"
 
 IMAGE_FEATURES_remove = "splash"
 
