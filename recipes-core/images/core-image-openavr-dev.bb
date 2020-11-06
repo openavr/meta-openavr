@@ -4,17 +4,8 @@ IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"
 
-require recipes-core/images/core-image-openavr.bb
+include recipes-core/images/core-image-openavr.inc
 
 IMAGE_INSTALL += " \
-    packagegroup-sdk-target \
-    kexec-tools \
-    kdump \
-    crash \
-    makedumpfile \
-    kernel-dev \
-    kernel-devsrc \
-    kernel-devsrc-dbg \
-    dtc \
-    git \
+    packagegroup-openavr-dev \
 "
