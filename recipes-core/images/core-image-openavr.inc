@@ -23,9 +23,16 @@ IMAGE_INSTALL = " \
     networkd-config \
 "
 
+IMAGE_INSTALL_append_rpi = " \
+    rpi-gpio \
+    rpio \
+"
+
 # Need to install the kernel-image to get a kernel into the rootfs on the sdcard.
 IMAGE_INSTALL += "kernel-image"
 IMAGE_INSTALL += "kernel-modules"
+
+IMAGE_INSTALL_append_raspberrypi4 = "linux-firmware-rpidistro-bcm43455"
 
 inherit extrausers
 EXTRA_USERS_PARAMS = "usermod -s /bin/bash root; "
