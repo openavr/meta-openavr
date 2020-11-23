@@ -10,6 +10,7 @@ PACKAGES = "\
     ${PN} \
     ${PN}-net \
     ${PN}-wireless \
+    ${PN}-mqtt \
 "
 
 RDEPENDS_${PN} = "\
@@ -47,4 +48,12 @@ RDEPENDS_${PN}-net = "\
 RDEPENDS_${PN}-wireless = "\
     packagegroup-base-wifi \
     hostapd \
+"
+
+RDEPENDS_${PN}-mqtt = "\
+    mosquitto \
+    mosquitto-config \
+    mosquitto-clients \
+    python3-paho-mqtt \
+    lighttpd \
 "
