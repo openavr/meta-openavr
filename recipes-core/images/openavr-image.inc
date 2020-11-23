@@ -1,4 +1,4 @@
-SUMMARY = "OpenAVR Core Reference OS Image"
+SUMMARY = "OpenAVR Reference OS Image"
 
 IMAGE_LINGUAS = " "
 

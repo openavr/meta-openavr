@@ -4,7 +4,7 @@ IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"
 
-include recipes-core/images/core-image-openavr.inc
+include recipes-core/images/openavr-image.inc
 
 IMAGE_INSTALL += " \
     packagegroup-openavr-dev \
