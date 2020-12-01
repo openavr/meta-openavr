@@ -51,6 +51,7 @@ RDEPENDS_${PN}-wireless = "\
 "
 
 RDEPENDS_${PN}-mqtt = "\
+    python3-certbot \
     mosquitto \
     mosquitto-config \
     mosquitto-clients \
