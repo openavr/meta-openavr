@@ -48,6 +48,8 @@ RDEPENDS_${PN}-net = "\
 RDEPENDS_${PN}-wireless = "\
     packagegroup-base-wifi \
     hostapd \
+    modemmanager \
+    dnsmasq \
 "
 
 RDEPENDS_${PN}-mqtt = "\
