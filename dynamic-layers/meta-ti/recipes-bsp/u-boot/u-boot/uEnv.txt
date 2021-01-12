@@ -1,0 +1,1 @@
+../../../../../recipes-bsp/u-boot/u-boot/uEnv.txt
