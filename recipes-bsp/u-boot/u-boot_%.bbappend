@@ -1,9 +1,9 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 # TODO: Use boot.scr instead of uEnv.txt.
 #       See example recipe in meta-raspberrypi.
 
-SRC_URI_append_beaglebone-yocto = " file://uEnv.txt"
-UBOOT_ENV_beaglebone-yocto = "uEnv"
+SRC_URI:append:beaglebone-yocto = " file://uEnv.txt"
+UBOOT_ENV:beaglebone-yocto = "uEnv"
 
-SRC_URI_append_rpi = " file://rpi-bootm-size.patch"
+SRC_URI:append:rpi = " file://rpi-bootm-size.patch"

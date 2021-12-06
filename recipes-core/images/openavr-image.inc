@@ -8,13 +8,13 @@ LICENSE = "MIT"
 include recipes-core/images/core-image-base.bb
 
 IMAGE_ROOTFS_SIZE ?= "8192"
-IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
+IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
 
 IMAGE_FEATURES += "ssh-server-openssh"
 IMAGE_FEATURES += "package-management"
 IMAGE_FEATURES += "read-only-rootfs"
 
-IMAGE_FEATURES_remove = "splash"
+IMAGE_FEATURES:remove = "splash"
 
 IMAGE_INSTALL = " \
     packagegroup-core-boot \
@@ -26,7 +26,7 @@ IMAGE_INSTALL = " \
     networkd-config \
 "
 
-IMAGE_INSTALL_append_rpi = " \
+IMAGE_INSTALL:append:rpi = " \
     rpi-gpio \
     rpio \
 "
@@ -35,7 +35,7 @@ IMAGE_INSTALL_append_rpi = " \
 IMAGE_INSTALL += "kernel-image"
 IMAGE_INSTALL += "kernel-modules"
 
-IMAGE_INSTALL_append_raspberrypi4 = "linux-firmware-rpidistro-bcm43455"
+IMAGE_INSTALL:append:raspberrypi4 = "linux-firmware-rpidistro-bcm43455"
 
 inherit extrausers
 EXTRA_USERS_PARAMS = "usermod -s /bin/bash root; "

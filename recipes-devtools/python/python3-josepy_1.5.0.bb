@@ -8,7 +8,7 @@ inherit pypi setuptools3
 SRC_URI[md5sum] = "3ee02df055cd886aef94d56851a131d3"
 SRC_URI[sha256sum] = "502a36f86efe2a6d09bf7018bca9fd8f8f24d8090a966aa037dbc844459ff9c8"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-cryptography (>=0.8) \
     ${PYTHON_PN}-pyopenssl (>=0.13) \
 "

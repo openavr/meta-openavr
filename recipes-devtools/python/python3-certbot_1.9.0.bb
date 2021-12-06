@@ -8,7 +8,7 @@ inherit pypi setuptools3
 SRC_URI[md5sum] = "b000d844ab584c63436a766a73f97bb5"
 SRC_URI[sha256sum] = "2ff9bf7d9af381c7efee22dec2dd6938d9d8fddcc9e11682b86e734164a30b57"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     python3-acme \
     python3-josepy \
     python3-pkg-resources \

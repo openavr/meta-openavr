@@ -8,7 +8,7 @@ inherit pypi setuptools3
 SRC_URI[md5sum] = "0d6e5e7a7a82bd69112321fb98fc14c0"
 SRC_URI[sha256sum] = "38a1630c98e144136c62eec4d2c545a1bdb1a3cd4eca82214be6b83a1f5a161f"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     python3-requests-toolbelt \
     python3-cryptography \
     python3-pyopenssl \

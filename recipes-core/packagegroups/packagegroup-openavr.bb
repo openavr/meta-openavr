@@ -13,7 +13,7 @@ PACKAGES = "\
     ${PN}-mqtt \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     bash \
     vim \
     usbutils \
@@ -23,7 +23,7 @@ RDEPENDS_${PN} = "\
     tmux \
 "
 
-RDEPENDS_${PN}-dev += "\
+RDEPENDS:${PN}-dev += "\
     packagegroup-sdk-target \
     kexec-tools \
     kdump \
@@ -36,7 +36,7 @@ RDEPENDS_${PN}-dev += "\
     git \
 "
 
-RDEPENDS_${PN}-net = "\
+RDEPENDS:${PN}-net = "\
     socat \
     iperf2 \
     iperf3 \
@@ -45,14 +45,14 @@ RDEPENDS_${PN}-net = "\
     tcpdump \
 "
 
-RDEPENDS_${PN}-wireless = "\
+RDEPENDS:${PN}-wireless = "\
     packagegroup-base-wifi \
     hostapd \
     modemmanager \
     dnsmasq \
 "
 
-RDEPENDS_${PN}-mqtt = "\
+RDEPENDS:${PN}-mqtt = "\
     python3-certbot \
     mosquitto \
     mosquitto-config \

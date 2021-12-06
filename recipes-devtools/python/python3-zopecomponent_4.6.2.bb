@@ -10,7 +10,7 @@ inherit pypi setuptools3
 SRC_URI[md5sum] = "a2ff90ec57119f0e568fa4aa64a57ebd"
 SRC_URI[sha256sum] = "91628918218b3e6f6323de2a7b845e09ddc5cae131c034896c051b084bba3c92"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     python3-zopeevent \
     python3-zopedeprecation \
     python3-zopehookable \
