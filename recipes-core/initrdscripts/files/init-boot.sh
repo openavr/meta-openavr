@@ -17,6 +17,12 @@ mount -t devtmpfs none /dev
 mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 
+while ! test -f /sys/block/mmcblk0/device/type
+do
+    echo "Waiting for block device: mmcblk0"
+    sleep 1
+done
+
 # Find the SD card block device
 if [ "$(cat /sys/block/mmcblk0/device/type)" == "SD" ]
 then
