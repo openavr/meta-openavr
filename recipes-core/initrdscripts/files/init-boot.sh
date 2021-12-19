@@ -67,12 +67,14 @@ mkdir -p /rfs
 # The Rescue rootfs partition
 mount ${RESC_DEV} /rfs
 
-PS1="OpenAVR: ${PS1}"
-export PS1
+if grep debug-openavr-init /proc/cmdline
+then
+    PS1="DEBUG: OpenAVR Init: ${PS1}"
+    export PS1
 
-#exec sh
-echo "Exit shell to continue booting into full system."
-sh
+    echo "Exit shell to continue booting into full system."
+    sh
+fi
 
 mount --move /proc /rfs/proc
 mount --move /sys /rfs/sys
