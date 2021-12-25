@@ -1,10 +1,15 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot:"
 
-# TODO: Use boot.scr instead of uEnv.txt.
-#       See example recipe in meta-raspberrypi.
+SRC_URI:append:beagleboneai = " file://boot.cmd.in"
 
-SRC_URI:append:beagleboneai = " file://uEnv.txt"
+KERNEL_BOOTCMD:beagleboneai = "bootz"
 
-do_deploy:append () {
-    cp -a ${WORKDIR}/uEnv.txt ${DEPLOYDIR}/
+UBOOT_ENV:beagleboneai = "boot"
+UBOOT_ENV_SUFFIX:beagleboneai = "scr"
+UBOOT_ENV_SRC_SUFFIX:beagleboneai = "cmd"
+
+do_compile:prepend:beagleboneai() {
+    sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
+        -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+        "${WORKDIR}/boot.cmd.in" > "${WORKDIR}/boot.cmd"
 }
