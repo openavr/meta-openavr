@@ -1,4 +1,4 @@
-setenv bootargs console=${console} rdinit=init
+setenv bootargs console=${console} rdinit=init @@DEBUG_OPENAVR_INIT@@
 echo "################################################"
 echo "###                                          ###"
 echo "###      Booting OpenAVR BeagleBone AI       ###"

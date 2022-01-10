@@ -13,5 +13,6 @@ UBOOT_ENV_SRC_SUFFIX:beaglebone-yocto = "cmd"
 do_compile:prepend:beaglebone-yocto() {
     sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
         -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+        -e 's/@@DEBUG_OPENAVR_INIT@@/${DEBUG_OPENAVR_INIT}/' \
         "${WORKDIR}/boot.cmd.in" > "${WORKDIR}/boot.cmd"
 }
