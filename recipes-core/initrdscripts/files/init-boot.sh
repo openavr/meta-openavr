@@ -65,7 +65,25 @@ mkdir -p /rfs
 #mount -o loop /boot/rootfs.squashfs-xz /rfs
 
 # The Rescue rootfs partition
-mount ${RESC_DEV} /rfs
+if [ -f /config/devcfg.squashfs ]
+then
+    mkdir -p /.rfs-overlay
+    mount -t squashfs ${RESC_DEV} /.rfs-overlay
+
+    mkdir -p /.cfg-overlay
+    mount -t squashfs /config/devcfg.squashfs /.cfg-overlay
+
+    # Stack the devcfg fs on top of the root fs using overlayfs
+    # In `lowerdir=` option, right most dir is lowest in the stack.
+    mount -t overlay overlay -o lowerdir=/.cfg-overlay:/.rfs-overlay /rfs
+
+    MOVE_OVERLAYS="1"
+else
+    echo "Setup for unprovisioned device configuration"
+    mount ${RESC_DEV} /rfs
+
+    MOVE_OVERLAYS="0"
+fi
 
 if grep debug-openavr-init /proc/cmdline
 then
@@ -79,6 +97,12 @@ fi
 mount --move /proc /rfs/proc
 mount --move /sys /rfs/sys
 mount --move /dev /rfs/dev
+
+if [ "${MOVE_OVERLAYS}" == "1" ]
+then
+    mount --move /.rfs-overlay /rfs/.rfs-overlay
+    mount --move /.cfg-overlay /rfs/.cfg-overlay
+fi
 
 mount --move /boot /rfs/boot
 mount --move /config /rfs/config
