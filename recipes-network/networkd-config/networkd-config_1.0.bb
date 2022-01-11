@@ -13,9 +13,9 @@ SRC_URI = " \
 S = "${WORKDIR}"
 
 do_install() {
-    install -d ${D}/etc/systemd/network
-    install -m 0644 ${S}/75-eth0.network ${D}/etc/systemd/network/75-eth0.network
-    install -m 0644 ${S}/75-eth1.network ${D}/etc/systemd/network/75-eth1.network
-    install -m 0644 ${S}/75-enp1s0u1.network ${D}/etc/systemd/network/75-enp1s0u1.network
-    install -m 0644 ${S}/75-enp1s0u2.network ${D}/etc/systemd/network/75-enp1s0u2.network
+    install -m 0755 -d ${D}${sysconfdir}/systemd/network
+    install -m 0644 ${S}/75-eth0.network ${D}${sysconfdir}/systemd/network/75-eth0.network
+    install -m 0644 ${S}/75-eth1.network ${D}${sysconfdir}/systemd/network/75-eth1.network
+    install -m 0644 ${S}/75-enp1s0u1.network ${D}${sysconfdir}/systemd/network/75-enp1s0u1.network
+    install -m 0644 ${S}/75-enp1s0u2.network ${D}${sysconfdir}/systemd/network/75-enp1s0u2.network
 }
