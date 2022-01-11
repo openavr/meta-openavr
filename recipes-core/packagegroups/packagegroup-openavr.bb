@@ -43,6 +43,7 @@ RDEPENDS:${PN}-net = "\
     curl \
     strace \
     tcpdump \
+    libnss-resolve2 \
 "
 
 RDEPENDS:${PN}-wireless = "\

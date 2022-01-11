@@ -18,4 +18,7 @@ do_install() {
     install -m 0644 ${S}/75-eth1.network ${D}${sysconfdir}/systemd/network/75-eth1.network
     install -m 0644 ${S}/75-enp1s0u1.network ${D}${sysconfdir}/systemd/network/75-enp1s0u1.network
     install -m 0644 ${S}/75-enp1s0u2.network ${D}${sysconfdir}/systemd/network/75-enp1s0u2.network
+
+    install -m 0755 -d ${D}${sysconfdir}/resolved.conf.d
+    install -m 0644 ${S}/mdns.conf ${D}${sysconfdir}/resolved.conf.d/mdns.conf
 }
