@@ -44,6 +44,7 @@ RDEPENDS:${PN}-net = "\
     strace \
     tcpdump \
     libnss-resolve2 \
+    nftables \
 "
 
 RDEPENDS:${PN}-wireless = "\
