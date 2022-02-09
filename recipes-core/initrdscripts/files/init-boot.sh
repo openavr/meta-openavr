@@ -1,5 +1,53 @@
 #!/bin/sh
 
+#
+# Before we can verify certificates used to validate file signatures, the
+# system needs a relatively current date and time. There are a multiple places
+# that can be obtained:
+#
+#  * /config/timestamp
+#        This should be updated periodically by the main os so as to keep the
+#        time updated. Hopefully, the system time will be updated with via NTP
+#        and will be fairly accurate.
+#
+#  * /etc/build
+#        (in the DATETIME field)
+#        This is set to the date and time that the build of the image was started,
+#        so will be different for each build.
+#
+#  * /etc/timestamp
+#        This is set during build time by Bitbake, but is set to a const value to
+#        enable reproducible builds. This could be changed in the build configuration
+#        but that would have a ripple effect through many packages in the system.
+#        Thus, it's best to not change it.
+#
+# Of the different sources, the value with the highest value will be used.
+#
+set_system_datetime()
+{
+    SYSTIME=$(/bin/date -u "+%4Y%2m%2d%2H%2M%2S")
+
+    if [ -f /config/timestamp ]
+    then
+        TIMESTAMP=$(/bin/cat /config/timestamp)
+        [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
+    fi
+
+    if [ -f /etc/build ]
+    then
+        TIMESTAMP=$(/usr/bin/awk '/^DATETIME/ {print $3}' /etc/build)
+        [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
+    fi
+
+    if [ -f /etc/timestamp ]
+    then
+        TIMESTAMP=$(/bin/cat /etc/timestamp)
+        [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
+    fi
+
+    /bin/date -u ${SYSTIME:4:8}${SYSTIME:0:4}.${SYSTIME:(-2)}
+}
+
 set -x
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
@@ -42,6 +90,8 @@ mount -o ro -t vfat ${BOOT_DEV} /boot
 # Device provisioning information goes in /config.
 mkdir -p /config
 mount -t ext4 -o rw ${CONF_DEV} /config
+
+set_system_datetime
 
 #
 # TODO: Look for provisioning data. If not present, configure networking and
