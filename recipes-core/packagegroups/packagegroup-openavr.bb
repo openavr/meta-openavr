@@ -14,6 +14,9 @@ PACKAGES = "\
 "
 
 RDEPENDS:${PN} = "\
+    openssl-bin \
+    cryptsetup \
+    ca-certificates \
     bash \
     vim \
     usbutils \

@@ -18,6 +18,9 @@ PACKAGE_INSTALL = "\
     ${VIRTUAL-RUNTIME_base-utils} \
     udev \
     base-passwd \
+    openssl-bin \
+    ca-certificates \
+    cryptsetup \
     ${ROOTFS_BOOTSTRAP_INSTALL} \
 "
 
