@@ -130,7 +130,7 @@ then
     MOVE_OVERLAYS="1"
 else
     echo "Setup for unprovisioned device configuration"
-    mount ${RESC_DEV} /rfs
+    mount -t squashfs ${RESC_DEV} /rfs
 
     MOVE_OVERLAYS="0"
 fi
