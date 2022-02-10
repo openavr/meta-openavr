@@ -48,6 +48,62 @@ set_system_datetime()
     /bin/date -u ${SYSTIME:4:8}${SYSTIME:0:4}.${SYSTIME:(-2)}
 }
 
+check_single_file()
+{
+    if [ $# -gt 1 ]
+    then
+        echo "too many files: $@" 1>&2
+        return 2
+    fi
+
+    if [ ! -e $1 ]
+    then
+        echo "Missing file: $1" 1>&2
+        return 1
+    fi
+}
+
+#
+# TODO: This should probably be converted to a generic function
+#       that can be reused to setup multiple squashfs images with
+#       dm-verify. For now, it is devcfg specific.
+#
+setup_devcfg_dm_verity()
+{
+    TMPDIR="$1"
+    DEVCFG=$(echo /config/devcfg-*.squashfs)
+
+    check_single_file ${DEVCFG} || return 1
+
+    DEVCFG_INFO="${TMPDIR}/$(basename ${DEVCFG}).info"
+
+    SIGNCRT="${TMPDIR}/devcfg-signing.crt"
+    SIGNPUB="${TMPDIR}/devcfg-signing.pub"
+
+    META_OFFSET=$(( $(stat -c '%s' ${DEVCFG}) - 4096 ))
+
+    # Extract the meta data tarball from the end of the squashfs file (last 4K)
+    dd if=${DEVCFG} bs=1 skip=${META_OFFSET} | tar -C ${TMPDIR} -xz || return 1
+
+    # Verify the signing cert against the OpenAVR Root CA certs embedded
+    # in the rootfs image.
+    openssl verify ${SIGNCRT} || return 1
+
+    # Verify the info file.
+    openssl x509 -pubkey -in ${SIGNCRT} > ${SIGNPUB}
+    openssl dgst -sha256 -verify ${SIGNPUB} \
+        -signature ${DEVCFG_INFO}.sig ${DEVCFG_INFO} || return 1
+
+    # Now that we trust the ${DEVCF}.info file, we can source it to use the
+    # ROOT_HASH and DATA_SIZE variables in it.
+    source ${DEVCFG_INFO}
+
+    # Since we trust the info file, we explicitly trust the dm-verity
+    # ROOT_HASH of the squashfs and can mount the squashfs.
+    veritysetup --hash-offset ${DATA_SIZE} \
+        create vdevcfg ${DEVCFG} ${DEVCFG} ${ROOT_HASH} || return 1
+}
+
 set -x
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
@@ -108,6 +164,14 @@ mkdir -p /data
 mount -t ext4 -o rw ${DATA_DEV} /data
 
 #
+# Setup a tmpfs for files used to setup dm-verity hash validations
+# for squashfs images.
+#
+DMV_TMPDIR="/dm-verity-tmp"
+mkdir -p ${DMV_TMPDIR}
+mount -t tmpfs -o size=10M tmpfs ${DMV_TMPDIR}
+
+#
 # Setup the rootfs.
 # TODO: This needs the logic to deal with upgrades.
 #
@@ -115,13 +179,13 @@ mkdir -p /rfs
 #mount -o loop /boot/rootfs.squashfs-xz /rfs
 
 # The Rescue rootfs partition
-if [ -f /config/devcfg.squashfs ]
+if setup_devcfg_dm_verity ${DMV_TMPDIR}
 then
     mkdir -p /.rfs-overlay
     mount -t squashfs ${RESC_DEV} /.rfs-overlay
 
     mkdir -p /.cfg-overlay
-    mount -t squashfs /config/devcfg.squashfs /.cfg-overlay
+    mount -t squashfs -o ro /dev/mapper/vdevcfg /.cfg-overlay
 
     # Stack the devcfg fs on top of the root fs using overlayfs
     # In `lowerdir=` option, right most dir is lowest in the stack.
@@ -143,6 +207,9 @@ then
     echo "Exit shell to continue booting into full system."
     sh
 fi
+
+# Done with the dm-verity tmpfs
+umount ${DMV_TMPDIR}
 
 mount --move /proc /rfs/proc
 mount --move /sys /rfs/sys
