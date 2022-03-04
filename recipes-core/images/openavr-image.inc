@@ -26,11 +26,6 @@ IMAGE_INSTALL = " \
     networkd-config \
 "
 
-IMAGE_INSTALL:append:rpi = " \
-    rpi-gpio \
-    rpio \
-"
-
 # Need to install the kernel-image to get a kernel into the rootfs on the sdcard.
 IMAGE_INSTALL += "kernel-image"
 IMAGE_INSTALL += "kernel-modules"
