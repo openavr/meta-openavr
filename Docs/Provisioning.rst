@@ -13,27 +13,27 @@ would be convenient to install the provisioning data into the rootfs image, but
 that would mean generating a unique rootfs image for each device which is
 problematic.
 
-A more managable method is to use a provisioning service to:
+A more manageable method is to use a provisioning service to:
 
-* Generate the device specific provisioning data.
+* Generate the device specific provisioning data (aka DevCfg).
 * Package all of the data into a squashfs image.
 * Sign the squashfs image.
-* Provide an API for the device to fetch the squashfs image.
+* Provide an API for the device to fetch the DevCfg image.
 
 When a device is being provisioned, it can:
 
-* Fetch a provisioning data image from the provisioning service.
+* Fetch a DevCfg image from the provisioning service.
 * Verify the image against the signature.
-* Read-only mount the provisioning data squash image into the rootfs using
-  overlayfs.
+* Read-only mount the DevCfg image into the rootfs using overlayfs.
 
-A device can be reprovisioned at any time by having it fetch a new provisioning
+A device can be reprovisioned at any time by having it fetch a new DevCfg
 image from the provisioning service.
 
 The provisioning service could store the images such that a device can request
-the image again if needed. Some ofthe provisioning data could be static for a
+the image again if needed. Some of the provisioning data could be static for a
 device, while other data could need to be updated over time. The provisioning
-service provide the device with an updated provisioning data images in this way.
+service can provide the device with an updated provisioning data images in this
+way.
 
 The provisioning service could also use MQTT (or any event messaging service)
 to send a message to the device indicating that the device needs to update
@@ -42,8 +42,8 @@ its provisioning data.
 .. image:: imgs/provisioning-block.png
    :alt: Provisioning Block Diagram
 
-Security Consideratons
-----------------------
+Security Considerations
+-----------------------
 
 Initial Device Provisioning
 +++++++++++++++++++++++++++
@@ -60,7 +60,7 @@ Provisioning Updates of Devices in the Field
 ++++++++++++++++++++++++++++++++++++++++++++
 
 * The provisioning data must be validated before it is installed by the device.
-* The provisioning service API needs to be secured with mTLS.
+* The provisioning service API needs to be secured with mTLS (mutual TLS).
 * Devices must authenticate to the provisioning service to be able to fetch a
   provisioning image.
 
@@ -155,7 +155,7 @@ produce virtually the same provisioning data image.
 the kernel from ``u-boot`` via an addition to the devicetree and ``u-boot``
 dumps its environment to ``/boot/uBoot.env``. This causes the HWID (serial
 number) to persist in the ``uBoot.env`` file on the SD card. Moving the SD card
-to another device carries over the serial number from the previously device
+to another device carries over the serial number from the previous device
 which booted from that SD card. There are three ways to deal with this:
 
 1) Don't move SD cards to other devices.
@@ -163,3 +163,41 @@ which booted from that SD card. There are three ways to deal with this:
 3) Delete the ``/boot/uBoot.env`` from the SD card before using it in a new
    device (although this is undesirable if the provisioning image is for the
    old device and serial-number).
+
+DevCfg Loading on the Device
+++++++++++++++++++++++++++++
+
+Flow chart showing how the DevCfg image is installed and mounted into the
+devices:
+
+.. image:: imgs/devcfg-flowchart.png
+   :alt: DevCfg Flowchart Diagram
+
+The DevCfg image file is actually a bundle of three files:
+
+* A SquashFS image.
+* A dm-verity block hash table for the SquashFS image.
+
+* An info and signature tarball (size of the compressed tarball must be < 4K).
+
+The DevCfg image file is laid out as shown in the following diagram:
+
+.. image:: imgs/devcfg-file-layout.png
+   :alt: DevCfg File Bundle Layout
+
+The info and signature tarball contains the following files::
+
+    .
+    ├── devcfg-0001.squashfs.info
+    ├── devcfg-0001.squashfs.info.sig
+    └── devcfg-signing.crt
+
+where:
+
+* The ``.info`` file is the output from the ``veritysetup`` command when creating
+  the dm-verity block hashes (with a few extra values added). Once this file is
+  validated, it should be safe to source it to set its contents to shell variables.
+* The ``.info.sig`` is the signature generated using a firmware signing key.
+* The ``devcfg-signing.crt`` is the certificate of the signing key which can
+  be used to validate the signature of the ``.info`` file (which contains the
+  hash of the root block of the dm-verity block hashes).
