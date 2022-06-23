@@ -1,7 +1,5 @@
 SUMMARY = "OpenAVR packagegroups"
 
-PR = "r1"
-
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
