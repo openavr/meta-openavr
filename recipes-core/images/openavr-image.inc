@@ -30,7 +30,7 @@ IMAGE_INSTALL = " \
 IMAGE_INSTALL += "kernel-image"
 IMAGE_INSTALL += "kernel-modules"
 
-IMAGE_INSTALL:append:raspberrypi4 = "linux-firmware-rpidistro-bcm43455"
+IMAGE_INSTALL:append:raspberrypi4 = " linux-firmware-rpidistro-bcm43455"
 
 inherit extrausers
 EXTRA_USERS_PARAMS = "usermod -s /bin/bash root; "
