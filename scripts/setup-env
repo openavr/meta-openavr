@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# This script must be sourced (not executed) to setup the initial build dir.
+# It is safe to source this script multiple times.
+#
+
+if [ "$0" == "${BASH_SOURCE[0]}" ]
+then
+    echo "Error: This script needs to be sourced. Please run as '. $0'" >&2
+    exit 1
+fi
+
+FILENAME="$(basename "${BASH_SOURCE[0]}")"
+TARGET="${FILENAME#setup-env}"
+TARGET_BUILD_DIR="build${TARGET}"
+
+# export EXTRA_CONF_NOTES="conf-notes${TARGET}.txt"
+
+unset TARGET
+unset FILENAME
+
+OPENAVR_ENV_SCRIPT="./oe/meta-openavr/openavr-init-build-env"
+
+if [ -f ${OPENAVR_ENV_SCRIPT} ]
+then
+    # shellcheck source=/dev/null
+    source "${OPENAVR_ENV_SCRIPT}" "${TARGET_BUILD_DIR}"
+else
+    {
+        echo "Can not find ${OPENAVR_ENV_SCRIPT} script."
+        echo "Are you in the right directory?"
+    } >&2
+fi
+unset OPENAVR_ENV_SCRIPT
+unset TARGET_BUILD_DIR

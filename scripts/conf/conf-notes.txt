@@ -1,0 +1,9 @@
+
+################################
+
+Common OpenAVR targets:
+    openavr-image
+    openavr-image-dev
+    openavr-image-gw
+
+################################

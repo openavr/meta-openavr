@@ -1,0 +1,101 @@
+#!/bin/bash
+
+IMAGE_FILE="${1:-NA}"
+
+declare -A props
+
+function get_udev_props() {
+    dev="$1"
+
+    props=()
+
+    # Load the udev properties into an associative array.
+    #
+    # NOTE: Can not use `cmd | while read line; do ...; done` as that runs
+    # the while loop in a sub-shell so props would remain unchanged after the
+    # loop exits. Using the redirect after done avoids this problem.
+    while read -r line
+    do
+        KEY="${line%=*}"
+        VAL="${line#*=}"
+        props[${KEY}]="${VAL}"
+    done < <(udevadm info -n "${dev}" -q property 2>/dev/null)
+}
+
+declare -a DEVICES
+
+# Find all removable media.
+for i in /sys/block/*
+do
+    DEVICE="/dev/$(basename "$i")"
+    get_udev_props "${DEVICE}"
+
+    if [ "$(cat "$i"/removable)" == "1" ] || [ "${props[ID_DRIVE_FLASH_SD]}" == "1" ]
+    then
+        if [ -n "$(lsblk -d -o NAME "${DEVICE}")" ]
+        then
+            DEVICES+=( "${DEVICE}:		${props[ID_MODEL]}" )
+        fi
+    fi
+done
+
+if [ ${#DEVICES[@]} -eq 0 ]
+then
+    echo "No suitable devices found."
+    echo "Insert an SD card and re-run this script."
+    exit 1
+fi
+
+echo "###################################"
+echo "# Target SD Card Device Selection #"
+echo "###################################"
+PS3="### Select target device -> "
+select DEVICE in "${DEVICES[@]}"
+do
+    DEV="${DEVICE%:*}"
+    echo "Selected: ${DEV}"
+
+    if [ -b "${DEV}" ]; then
+        break
+    else
+        echo "Missing block device: ${DEV}"
+    fi
+done
+echo
+
+echo "###################################"
+echo "# Target WIC Image File Selection #"
+echo "###################################"
+PS3="### Select target image file -> "
+if [ "${IMAGE_FILE}" = "NA" ]
+then
+    if [ -z "${BBPATH}" ]
+    then
+        echo "BBPATH variable is not set. Did you source the setup-env script?"
+        exit 1
+    else
+        pushd "${BBPATH}" &>/dev/null || exit 1
+    fi
+
+    test -d tmp/deploy/images || {
+        echo "No tmp/deploy/images directory found"
+        exit 1
+    }
+
+    # Search for images...
+    mapfile -t IMAGES < <( \
+        find tmp/deploy/images/*/ -name '*.wic.*' -type l \
+        | grep -v '[.]bmap$' \
+        | sort \
+    )
+
+    select IMAGE_FILE in "${IMAGES[@]}"
+    do
+        break
+    done
+    echo
+fi
+
+set -x
+
+exec sudo bmaptool copy "${IMAGE_FILE}" "${DEV}"
