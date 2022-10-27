@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+# This script needs to be sourced to setup the initial build dir.
+#
+
+if [ "$0" == "${BASH_SOURCE[0]}" ]
+then
+    echo "Error: This script needs to be sourced. Please run as '. $0'" >&2
+    exit 1
+fi
+
+unset BB_ENV_EXTRAWHITE
+
+OE_ENV_SCRIPT="./oe/poky/oe-init-build-env"
+
+if [ -f ${OE_ENV_SCRIPT} ]
+then
+    source ${OE_ENV_SCRIPT} ${1}
+
+    TOPDIR="$(dirname ${BBPATH})"
+
+    # Parent scripts can pre-set SCRIPTS_DIRS to a string or an array and we
+    # will append to it here.
+    declare -a SCRIPTS_DIRS
+    SCRIPTS_DIRS+=(
+        "${TOPDIR}/oe/meta-openavr/scripts"
+        "${TOPDIR}/scripts"
+    )
+
+    for scripts_dir in "${SCRIPTS_DIRS[@]}"
+    do
+        test -z "${scripts_dir}" && continue
+
+        # Remove any existences of ${scripts_dir} from $PATH
+        PATH=$(echo $PATH | sed -re "s#(^|:)${scripts_dir}(:|$)#\2#g;s#^:##")
+
+        # Add ${scripts_dir} to $PATH
+        PATH="$PATH:${scripts_dir}"
+    done
+    export PATH
+
+    for scripts_dir in "${SCRIPTS_DIRS}"
+    do
+        conf_dir="${scripts_dir}/conf"
+
+        test -z "${conf_dir}" && continue
+
+        CONF_NOTES="${conf_dir}/${EXTRA_CONF_NOTES:-conf-notes.txt}"
+
+        if [ -f "${CONF_NOTES[@]}" ]
+        then
+            cat "${CONF_NOTES}"
+        fi
+        unset CONF_NOTES
+    done
+
+    unset SCRIPTS_DIRS
+else
+    {
+        echo "Can not find ${OE_ENV_SCRIPT} script."
+        echo "Are you in the right directory?"
+    } >&2
+fi
+
+unset OE_ENV_SCRIPT
