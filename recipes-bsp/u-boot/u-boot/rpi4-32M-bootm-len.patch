@@ -1,0 +1,12 @@
+The default of CONFIG_SYS_BOOTM_LEN is 8M (0x800000) which is not large enough
+when you bundle the initramfs with the kernel image. Increase to 32M.
+
+diff --git a/configs/rpi_4_32b_defconfig b/configs/rpi_4_32b_defconfig
+index e9c18f6b27..70996642a5 100644
+--- a/configs/rpi_4_32b_defconfig
++++ b/configs/rpi_4_32b_defconfig
+@@ -67,3 +67,4 @@ CONFIG_PHYS_TO_BUS=y
+ CONFIG_ADDR_MAP=y
+ CONFIG_SYS_NUM_ADDR_MAP=2
+ CONFIG_OF_LIBFDT_OVERLAY=y
++CONFIG_SYS_BOOTM_LEN=0x2000000
