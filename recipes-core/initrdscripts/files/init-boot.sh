@@ -225,6 +225,27 @@ mount --move /boot /rfs/boot
 mount --move /config /rfs/config
 mount --move /data /rfs/data
 
+if [ ! -e /rfs/data/etc-hostname ]
+then
+    HOSTNAME="openavr-$(grep '^Serial' /rfs/proc/cpuinfo | sha256sum | cut -c -6)"
+
+    if [ "${HOSTNAME}" != "openavr-" ]
+    then
+        echo "${HOSTNAME}" >/rfs/data/etc-hostname
+        sed -e "s/^\(127[.]0[.]1[.]1\).*$/\1 ${HOSTNAME}/" /rfs/etc/hosts >/rfs/data/etc-hosts
+    fi
+fi
+
+if [ -e /rfs/data/etc-hostname ]
+then
+    mount --bind -o ro /rfs/data/etc-hostname /rfs/etc/hostname
+fi
+
+if [ -e /rfs/data/etc-hosts ]
+then
+    mount --bind -o ro /rfs/data/etc-hosts /rfs/etc/hosts
+fi
+
 #
 # Switch over to the real rootfs image and start up systemd
 #
