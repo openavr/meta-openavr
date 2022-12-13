@@ -22,6 +22,7 @@ RDEPENDS:${PN} = "\
     minicom \
     screen \
     tmux \
+    systemd-analyze \
 "
 
 RDEPENDS:${PN}-dev += "\
