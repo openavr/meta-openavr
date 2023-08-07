@@ -28,6 +28,7 @@ PACKAGE_INSTALL = "\
 IMAGE_FEATURES = ""
 
 export IMAGE_BASENAME = "${MLPREFIX}openavr-image-initramfs"
+IMAGE_NAME_SUFFIX ?= ""
 IMAGE_LINGUAS = ""
 
 LICENSE = "MIT"
