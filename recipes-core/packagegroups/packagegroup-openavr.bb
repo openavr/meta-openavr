@@ -62,6 +62,5 @@ RDEPENDS:${PN}-mqtt = "\
     mosquitto-clients \
     python3-paho-mqtt \
     lighttpd \
-    lighttpd-module-access \
     lighttpd-module-accesslog \
 "
