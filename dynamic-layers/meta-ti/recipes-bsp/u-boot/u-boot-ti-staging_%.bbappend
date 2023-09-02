@@ -1,16 +1,9 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot:"
 
-SRC_URI:append:beagleboneai = " file://boot.cmd.in"
+# The build for bb-ai64 is multi-config and will also build this recipe for the
+# k3r5 MACHINE, but that breaks if .inc file is applied, hence the conditional
+# require here.
+require ${@bb.utils.contains_any("MACHINE", "beagleboneai beaglebone-ai64", "u-boot-openavr.inc", "", d)}
 
 KERNEL_BOOTCMD:beagleboneai = "bootz"
-
-UBOOT_ENV:beagleboneai = "boot"
-UBOOT_ENV_SUFFIX:beagleboneai = "scr"
-UBOOT_ENV_SRC_SUFFIX:beagleboneai = "cmd"
-
-do_compile:prepend:beagleboneai() {
-    sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
-        -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
-        -e 's/@@DEBUG_OPENAVR_INIT@@/${DEBUG_OPENAVR_INIT}/' \
-        "${WORKDIR}/boot.cmd.in" > "${WORKDIR}/boot.cmd"
-}
+KERNEL_BOOTCMD:beaglebone-ai64 = "booti"
