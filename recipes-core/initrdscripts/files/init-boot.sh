@@ -33,9 +33,9 @@ set_system_datetime()
         [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
     fi
 
-    if [ -f /etc/build ]
+    if [ -f /etc/buildinfo ]
     then
-        TIMESTAMP=$(/usr/bin/awk '/^DATETIME/ {print $3}' /etc/build)
+        TIMESTAMP=$(/usr/bin/awk '/^DATETIME/ {print $3}' /etc/buildinfo)
         [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
     fi
 
@@ -45,6 +45,7 @@ set_system_datetime()
         [ ${SYSTIME} -lt ${TIMESTAMP} ] && SYSTIME=${TIMESTAMP}
     fi
 
+    echo "Setting initial time to '${SYSTIME}'"
     /bin/date -u ${SYSTIME:4:8}${SYSTIME:0:4}.${SYSTIME:(-2)}
 }
 
