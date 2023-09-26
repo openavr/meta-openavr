@@ -1,0 +1,34 @@
+From 491a604854b5b30be9b09fc7c24f4c25369da7cb Mon Sep 17 00:00:00 2001
+From: Udit Kumar <u-kumar1@ti.com>
+Date: Thu, 11 May 2023 14:47:50 +0530
+Subject: [PATCH 01/12] arch: arm: mach-k3: j721e: add support for UDA FS
+
+When selecting UDA partition for booting. MMC read
+mode was selected as RAW.
+
+Due to growing/changing size of u-boot and tispl
+images.
+It will be better change to FS in case of UDA FS instead of
+adjusting offsets with new change.
+
+Signed-off-by: Udit Kumar <u-kumar1@ti.com>
+---
+ arch/arm/mach-k3/j721e_init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-k3/j721e_init.c b/arch/arm/mach-k3/j721e_init.c
+index fb36574a9a..c97472c070 100644
+--- a/arch/arm/mach-k3/j721e_init.c
++++ b/arch/arm/mach-k3/j721e_init.c
+@@ -296,7 +296,7 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
+ {
+ 	switch (boot_device) {
+ 	case BOOT_DEVICE_MMC1:
+-		return MMCSD_MODE_EMMCBOOT;
++		return (spl_mmc_emmc_boot_partition(mmc) ? MMCSD_MODE_EMMCBOOT : MMCSD_MODE_FS);
+ 	case BOOT_DEVICE_MMC2:
+ 		return MMCSD_MODE_FS;
+ 	default:
+-- 
+2.34.1
+

@@ -1,0 +1,36 @@
+From eb3dc113a8d3301f6577f36c827b98b88f04ed97 Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Sun, 20 Aug 2023 20:20:04 -0500
+Subject: [PATCH 05/12] board/ti/j721e/evm.c: default to BBONEAI-64-B0-
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ board/ti/j721e/evm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/board/ti/j721e/evm.c b/board/ti/j721e/evm.c
+index ad37126919..7964f36e22 100644
+--- a/board/ti/j721e/evm.c
++++ b/board/ti/j721e/evm.c
+@@ -453,7 +453,7 @@ void configure_serdes_sierra(void)
+ #ifdef CONFIG_BOARD_LATE_INIT
+ static void setup_board_eeprom_env(void)
+ {
+-	char *name = "j721e";
++	char *name = "BBONEAI-64-B0-";
+ 
+ 	if (do_board_detect())
+ 		goto invalid_eeprom;
+@@ -467,7 +467,8 @@ static void setup_board_eeprom_env(void)
+ 	else if (board_is_j7200_som())
+ 		name = "j7200";
+ 	else
+-		name = "BBONEAI-64-B0-";
++		printf("Unidentified board claims %s in eeprom header\n",
++		       board_ti_get_name());
+ 
+ invalid_eeprom:
+ 	set_board_info_env_am6(name);
+-- 
+2.34.1
+

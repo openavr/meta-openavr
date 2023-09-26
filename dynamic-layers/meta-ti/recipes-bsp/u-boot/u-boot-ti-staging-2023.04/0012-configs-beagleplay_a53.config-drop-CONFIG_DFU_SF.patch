@@ -1,0 +1,24 @@
+From 633bbcb965c118fc7395712ad240a073c1f3ac8b Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Mon, 21 Aug 2023 16:35:49 -0500
+Subject: [PATCH 12/12] configs/beagleplay_a53.config: drop CONFIG_DFU_SF
+
+drivers/dfu/dfu_sf.c:123:30: error: 'CONFIG_SF_DEFAULT_SPEED' undeclared (first use in this function)
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ configs/beagleplay_a53.config | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configs/beagleplay_a53.config b/configs/beagleplay_a53.config
+index 15fdb86536..4362289e9b 100644
+--- a/configs/beagleplay_a53.config
++++ b/configs/beagleplay_a53.config
+@@ -22,3 +22,4 @@ CONFIG_SPI=n
+ CONFIG_SPI_FLASH=n
+ CONFIG_SPL_DM_SPI_FLASH=n
+ CONFIG_SPL_SPI_FLASH_SUPPORT=n
++CONFIG_DFU_SF=n
+-- 
+2.34.1
+

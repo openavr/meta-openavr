@@ -1,0 +1,97 @@
+From 735d461c6a0a4ea7e9ae7d549c1560800a9a6138 Mon Sep 17 00:00:00 2001
+From: Nishanth Menon <nm@ti.com>
+Date: Tue, 25 Jul 2023 08:45:00 -0500
+Subject: [PATCH 10/12] board: ti: am62x: Add am62x_beagleplay_* defconfigs and
+ env file
+
+Add defconfig fragments for am625 based beagleplay and corresponding
+customized environment file for beagleplay.
+
+Signed-off-by: Nishanth Menon <nm@ti.com>
+---
+ board/ti/am62x/beagleplay.env        | 20 ++++++++++++++++++++
+ board/ti/am62x/beagleplay_a53.config | 24 ++++++++++++++++++++++++
+ board/ti/am62x/beagleplay_r5.config  | 13 +++++++++++++
+ 3 files changed, 57 insertions(+)
+ create mode 100644 board/ti/am62x/beagleplay.env
+ create mode 100644 board/ti/am62x/beagleplay_a53.config
+ create mode 100644 board/ti/am62x/beagleplay_r5.config
+
+diff --git a/board/ti/am62x/beagleplay.env b/board/ti/am62x/beagleplay.env
+new file mode 100644
+index 0000000000..419b5f9241
+--- /dev/null
++++ b/board/ti/am62x/beagleplay.env
+@@ -0,0 +1,20 @@
++#include <environment/ti/ti_armv7_common.env>
++#include <environment/ti/mmc.env>
++
++default_device_tree=ti/k3-am625-beagleplay.dtb
++findfdt=
++	setenv name_fdt ${default_device_tree};
++	setenv fdtfile ${name_fdt}
++name_kern=Image
++console=ttyS2,115200n8
++args_all=setenv optargs ${optargs} earlycon=ns16550a,mmio32,0x02800000
++	${mtdparts}
++run_kern=booti ${loadaddr} ${rd_spec} ${fdtaddr}
++
++boot=mmc
++mmcdev=1
++bootpart=1:1
++bootdir=/boot
++boot_targets=mmc1 mmc0 usb pxe
++bootmeths=extlinux efi
++rd_spec=-
+diff --git a/board/ti/am62x/beagleplay_a53.config b/board/ti/am62x/beagleplay_a53.config
+new file mode 100644
+index 0000000000..15fdb86536
+--- /dev/null
++++ b/board/ti/am62x/beagleplay_a53.config
+@@ -0,0 +1,24 @@
++# Defconfig fragment to apply on top of am62x_evm_a53_defconfig
++
++CONFIG_DEFAULT_DEVICE_TREE="k3-am625-beagleplay"
++CONFIG_OF_LIST="k3-am625-beagleplay"
++CONFIG_SPL_OF_LIST="k3-am625-beagleplay"
++CONFIG_BOOTCOMMAND="run findfdt; run envboot; run distro_bootcmd"
++CONFIG_EXT4_WRITE=y
++CONFIG_LZO=y
++CONFIG_AUTOBOOT_KEYED=y
++CONFIG_AUTOBOOT_PROMPT="Press SPACE to abort autoboot in %d seconds\n"
++CONFIG_AUTOBOOT_DELAY_STR="d"
++CONFIG_AUTOBOOT_STOP_STR=" "
++# Use the Beagleplay env file
++CONFIG_ENV_SOURCE_FILE="beagleplay"
++# Do not use emmc boot - we will use FS only
++CONFIG_SUPPORT_EMMC_BOOT=n
++# Uses Realtek phy rather than TI phy
++CONFIG_PHY_TI_DP83867=n
++CONFIG_PHY_REALTEK=y
++# No SPI flash on Beagleplay
++CONFIG_SPI=n
++CONFIG_SPI_FLASH=n
++CONFIG_SPL_DM_SPI_FLASH=n
++CONFIG_SPL_SPI_FLASH_SUPPORT=n
+diff --git a/board/ti/am62x/beagleplay_r5.config b/board/ti/am62x/beagleplay_r5.config
+new file mode 100644
+index 0000000000..df3dc3a5c6
+--- /dev/null
++++ b/board/ti/am62x/beagleplay_r5.config
+@@ -0,0 +1,13 @@
++# Defconfig fragment to apply on top of:
++# am62x_evm_r5_defconfig
++#
++CONFIG_DEFAULT_DEVICE_TREE="k3-am625-r5-beagleplay"
++CONFIG_OF_LIST="k3-am625-r5-beagleplay"
++CONFIG_SPL_OF_LIST="k3-am625-r5-beagleplay"
++# Do not use emmc boot - we will use FS only
++CONFIG_SUPPORT_EMMC_BOOT=n
++# No SPI flash on Beagleplay
++CONFIG_SPI=n
++CONFIG_SPI_FLASH=n
++CONFIG_SPL_DM_SPI_FLASH=n
++CONFIG_SPL_SPI_FLASH_SUPPORT=n
+-- 
+2.34.1
+

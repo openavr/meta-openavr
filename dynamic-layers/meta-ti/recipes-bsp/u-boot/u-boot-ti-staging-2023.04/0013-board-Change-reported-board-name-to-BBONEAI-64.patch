@@ -1,0 +1,26 @@
+From ab3326127b20ea9d2078a48774196077bd9507e1 Mon Sep 17 00:00:00 2001
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Mon, 11 Sep 2023 05:40:15 -0600
+Subject: [PATCH 13/13] board: Change reported board name to BBONEAI-64
+
+Signed-off-by: Theodore A. Roth <troth@openavr.org>
+---
+ board/ti/j721e/evm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/board/ti/j721e/evm.c b/board/ti/j721e/evm.c
+index 7964f36e22..3865efc2af 100644
+--- a/board/ti/j721e/evm.c
++++ b/board/ti/j721e/evm.c
+@@ -197,7 +197,7 @@ int checkboard(void)
+ 
+ 	if (do_board_detect())
+ 		/* EEPROM not populated */
+-		printf("Board: %s rev %s\n", "J721EX-PM1-SOM", "E2");
++		printf("Board: %s rev %s\n", "BBONEAI-64", "B0");
+ 	else
+ 		printf("Board: %s rev %s\n", ep->name, ep->version);
+ 
+-- 
+2.34.1
+

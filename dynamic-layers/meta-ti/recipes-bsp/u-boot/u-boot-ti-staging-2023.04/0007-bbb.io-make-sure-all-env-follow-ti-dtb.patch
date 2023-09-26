@@ -1,0 +1,33 @@
+From b15e645a7212ef8ce921d04c884ca2e3299b305d Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Mon, 21 Aug 2023 10:02:20 -0500
+Subject: [PATCH 07/12] bbb.io: make sure all env follow ti/<dtb>
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ board/ti/j721e/j721e.env | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/board/ti/j721e/j721e.env b/board/ti/j721e/j721e.env
+index 908aa86b63..157d55818a 100644
+--- a/board/ti/j721e/j721e.env
++++ b/board/ti/j721e/j721e.env
+@@ -12,13 +12,13 @@ defined(CONFIG_TARGET_J721E_R5_EVM)
+ #include <environment/ti/k3_rproc.env>
+ #endif
+ 
+-default_device_tree=k3-j721e-beagleboneai64.dtb
++default_device_tree=ti/k3-j721e-beagleboneai64.dtb
+ findfdt=
+ 	setenv name_fdt ${default_device_tree};
+ 	if test $board_name = j721e; then
+ 		setenv name_fdt ti/k3-j721e-common-proc-board.dtb; fi;
+ 	if test $board_name = BBONEAI-64-B0-; then
+-		setenv name_fdt k3-j721e-beagleboneai64.dtb; fi;
++		setenv name_fdt ti/k3-j721e-beagleboneai64.dtb; fi;
+ 	if test $board_name = j7200; then
+ 		setenv name_fdt ti/k3-j7200-common-proc-board.dtb; fi;
+ 	if test $board_name = j721e-eaik || test $board_name = j721e-sk; then
+-- 
+2.34.1
+

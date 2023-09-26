@@ -1,0 +1,29 @@
+From 43db9eea85c5c66f4c6d5ea2d76bf5750b5a66d1 Mon Sep 17 00:00:00 2001
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Sun, 20 Aug 2023 20:02:30 -0500
+Subject: [PATCH 04/12] partial revert: spl/dts/k3-j721e-sk.dtb not found in
+ path
+
+Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+---
+ configs/j721e_beagleboneai64_a72.config | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configs/j721e_beagleboneai64_a72.config b/configs/j721e_beagleboneai64_a72.config
+index 57abc98a17..e2a68cc643 100644
+--- a/configs/j721e_beagleboneai64_a72.config
++++ b/configs/j721e_beagleboneai64_a72.config
+@@ -1,8 +1,8 @@
+ # Defconfig fragment to apply on top of j721e_evm_a72_defconfig
+ 
+ CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-beagleboneai64"
+-CONFIG_SPL_OF_LIST="k3-j721e-beagleboneai64"
+-CONFIG_OF_LIST="k3-j721e-beagleboneai64"
++CONFIG_SPL_OF_LIST="k3-j721e-beagleboneai64 k3-j721e-sk"
++CONFIG_OF_LIST="k3-j721e-beagleboneai64 k3-j721e-sk"
+ CONFIG_BOOTCOMMAND="run distro_bootcmd"
+ CONFIG_EXT4_WRITE=y
+ CONFIG_LZO=y
+-- 
+2.34.1
+
