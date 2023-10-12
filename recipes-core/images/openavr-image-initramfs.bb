@@ -21,6 +21,7 @@ PACKAGE_INSTALL = "\
     openssl-bin \
     ca-certificates \
     cryptsetup \
+    util-linux-sfdisk \
     ${ROOTFS_BOOTSTRAP_INSTALL} \
 "
 
