@@ -1,6 +1,9 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI:append:rpi = " file://0001-Increase-SYS_BOOTM_LEN.patch"
+SRC_URI:append:rpi = " \
+    file://0001-Increase-SYS_BOOTM_LEN.patch \
+    file://bootcmd.cfg \
+"
 
 SRC_URI:append:beaglebone-yocto = " file://boot.cmd.in"
 
