@@ -77,14 +77,14 @@ then
         pushd "${BBPATH}" &>/dev/null || exit 1
     fi
 
-    test -d tmp/deploy/images || {
-        echo "No tmp/deploy/images directory found"
+    test -d tmp/deploy/images -o -d deploy-ti/images || {
+        echo "No tmp/deploy/images or deploy-ti/images directory found"
         exit 1
     }
 
     # Search for images...
     mapfile -t IMAGES < <( \
-        find tmp/deploy/images/*/ -name '*.wic.*' -type l \
+        find tmp/deploy/images/*/ deploy-ti/images/*/ -name '*.wic.*' -type l \
         | grep -v '[.]bmap$' \
         | sort \
     )
