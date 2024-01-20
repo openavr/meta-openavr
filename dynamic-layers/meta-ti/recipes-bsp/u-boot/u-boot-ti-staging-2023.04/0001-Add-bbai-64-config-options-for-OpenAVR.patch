@@ -1,0 +1,62 @@
+From 605909101f9b0e9b540fde87a2cafea28aa07836 Mon Sep 17 00:00:00 2001
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Sat, 20 Jan 2024 11:17:37 -0700
+Subject: [PATCH] Add bbai-64 config options for OpenAVR
+
+The config file fragments no longer seem to work with TI u-boot.
+
+Signed-off-by: Theodore A. Roth <troth@openavr.org>
+---
+ configs/j721e_beagleboneai64_a72.config | 11 +++++++++++
+ configs/j721e_beagleboneai64_r5.config  | 11 +++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/configs/j721e_beagleboneai64_a72.config b/configs/j721e_beagleboneai64_a72.config
+index e77c67962d..3e482a5af0 100644
+--- a/configs/j721e_beagleboneai64_a72.config
++++ b/configs/j721e_beagleboneai64_a72.config
+@@ -1,6 +1,7 @@
+ # Defconfig fragment to apply on top of j721e_evm_a72_defconfig
+ 
+ CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-beagleboneai64"
++CONFIG_DEFAULT_FDT_FILE="ti/k3-j721e-beagleboneai64.dtb"
+ CONFIG_SPL_OF_LIST="k3-j721e-beagleboneai64 k3-j721e-sk"
+ CONFIG_OF_LIST="k3-j721e-beagleboneai64 k3-j721e-sk"
+ CONFIG_BOOTCOMMAND="run findfdt; run envboot; run distro_bootcmd"
+@@ -11,3 +12,13 @@ CONFIG_AUTOBOOT_PROMPT="Press SPACE to abort autoboot in %d seconds\n"
+ CONFIG_AUTOBOOT_DELAY_STR="d"
+ CONFIG_AUTOBOOT_STOP_STR=" "
+ CONFIG_HBMC_AM654=n
++
++# CONFIG_EFI_LOADER is not set
++
++# CONFIG_BOOTMETH_DISTRO is not set
++# CONFIG_BOOTMETH_DISTRO_PXE is not set
++# CONFIG_BOOTMETH_EFILOADER is not set
++# CONFIG_BOOTMETH_VBE is not set
++CONFIG_BOOTMETH_SCRIPT=y
++CONFIG_LEGACY_IMAGE_FORMAT=y
++CONFIG_CMD_BOOTZ=y
+diff --git a/configs/j721e_beagleboneai64_r5.config b/configs/j721e_beagleboneai64_r5.config
+index c7454a89c4..24fd4e4ea5 100644
+--- a/configs/j721e_beagleboneai64_r5.config
++++ b/configs/j721e_beagleboneai64_r5.config
+@@ -2,4 +2,15 @@
+ # j721e_evm_r5_defconfig
+ 
+ CONFIG_DEFAULT_DEVICE_TREE="k3-j721e-r5-beagleboneai64"
++CONFIG_DEFAULT_FDT_FILE="ti/k3-j721e-r5-beagleboneai64.dtb"
+ CONFIG_HBMC_AM654=n
++
++# CONFIG_EFI_LOADER is not set
++
++# CONFIG_BOOTMETH_DISTRO is not set
++# CONFIG_BOOTMETH_DISTRO_PXE is not set
++# CONFIG_BOOTMETH_EFILOADER is not set
++# CONFIG_BOOTMETH_VBE is not set
++CONFIG_BOOTMETH_SCRIPT=y
++CONFIG_LEGACY_IMAGE_FORMAT=y
++CONFIG_CMD_BOOTZ=y
+-- 
+2.34.1
+
