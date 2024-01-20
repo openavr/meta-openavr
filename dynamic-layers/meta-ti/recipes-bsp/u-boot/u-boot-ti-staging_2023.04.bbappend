@@ -1,5 +1,8 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot-ti-staging-2023.04:"
 
+UBOOT_CONFIG_FRAGMENTS:beaglebone-ai64 = "j721e_beagleboneai64_a72.config"
+UBOOT_CONFIG_FRAGMENTS:beaglebone-ai64-k3r5 = "j721e_beagleboneai64_r5.config"
+
 SRC_URI:append:beaglebone-ai64 = " \
     file://bb-ai64-fdtfile.cfg \
     file://disable-efi.cfg \
