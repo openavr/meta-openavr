@@ -1,7 +1,7 @@
-From 3254d8125162b0cc31e6c23333d1e9ca42eceb78 Mon Sep 17 00:00:00 2001
+From c8a9ecc8a172087825652c3b4aa34bec32a4e2da Mon Sep 17 00:00:00 2001
 From: Nishanth Menon <nm@ti.com>
 Date: Mon, 21 Aug 2023 12:18:33 -0500
-Subject: [PATCH 08/12] env_default: Allow CONFIG_EXTRA_ENV_TEXT to override
+Subject: [PATCH] env_default: Allow CONFIG_EXTRA_ENV_TEXT to override
  CFG_EXTRA_ENV_SETTINGS
 
 CFG_EXTRA_ENV_SETTINGS is set in common board config files, This allows

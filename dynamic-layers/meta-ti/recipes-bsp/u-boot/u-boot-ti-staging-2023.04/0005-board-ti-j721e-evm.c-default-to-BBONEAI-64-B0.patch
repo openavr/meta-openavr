@@ -1,7 +1,7 @@
-From eb3dc113a8d3301f6577f36c827b98b88f04ed97 Mon Sep 17 00:00:00 2001
+From ecb9b3923b86b285d44a7057c15be8db999d3d13 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
 Date: Sun, 20 Aug 2023 20:20:04 -0500
-Subject: [PATCH 05/12] board/ti/j721e/evm.c: default to BBONEAI-64-B0-
+Subject: [PATCH] board/ti/j721e/evm.c: default to BBONEAI-64-B0-
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/board/ti/j721e/evm.c b/board/ti/j721e/evm.c
-index ad37126919..7964f36e22 100644
+index a3af4a7e92..5c6fd588c3 100644
 --- a/board/ti/j721e/evm.c
 +++ b/board/ti/j721e/evm.c
 @@ -453,7 +453,7 @@ void configure_serdes_sierra(void)

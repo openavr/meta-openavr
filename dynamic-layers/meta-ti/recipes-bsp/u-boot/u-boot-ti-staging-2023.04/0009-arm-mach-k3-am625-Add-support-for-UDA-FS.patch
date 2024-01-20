@@ -1,7 +1,7 @@
-From ded1379342f9945a598a3cf3060bd765fb4017cf Mon Sep 17 00:00:00 2001
+From 40f5b365f2f78c26df4f6a24cf4ec14b20d0838e Mon Sep 17 00:00:00 2001
 From: Nishanth Menon <nm@ti.com>
 Date: Mon, 21 Aug 2023 09:52:18 -0500
-Subject: [PATCH 09/12] arm: mach-k3: am625: Add support for UDA FS
+Subject: [PATCH] arm: mach-k3: am625: Add support for UDA FS
 
 While boot partition support with EMMC boot is useful, it is
 constrained by the size of boot hardware partition itself.
@@ -22,10 +22,10 @@ Signed-off-by: Nishanth Menon <nm@ti.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm/mach-k3/am625_init.c b/arch/arm/mach-k3/am625_init.c
-index d5d741cb93..ae67b3cab6 100644
+index ccbfad29d7..bc654eccbb 100644
 --- a/arch/arm/mach-k3/am625_init.c
 +++ b/arch/arm/mach-k3/am625_init.c
-@@ -236,7 +236,13 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
+@@ -238,7 +238,13 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
  
  	switch (bootmode) {
  	case BOOT_DEVICE_EMMC:

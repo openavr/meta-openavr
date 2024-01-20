@@ -1,8 +1,8 @@
-From f5093c9b839a3db7103757837a03c9af646e4508 Mon Sep 17 00:00:00 2001
+From ae00fbd79142dd6440ca6a1b584e28f51acad6d8 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
 Date: Sun, 20 Aug 2023 20:33:24 -0500
-Subject: [PATCH 06/12] j721e_beagleboneai64: need run findfdt to set board
- from set_board_info_env_am6
+Subject: [PATCH] j721e_beagleboneai64: need run findfdt to set board from
+ set_board_info_env_am6
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---

@@ -1,8 +1,7 @@
-From 43db9eea85c5c66f4c6d5ea2d76bf5750b5a66d1 Mon Sep 17 00:00:00 2001
+From daf484a9b1907da3a1169512a422872afa1a7b20 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
 Date: Sun, 20 Aug 2023 20:02:30 -0500
-Subject: [PATCH 04/12] partial revert: spl/dts/k3-j721e-sk.dtb not found in
- path
+Subject: [PATCH] partial revert: spl/dts/k3-j721e-sk.dtb not found in path
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---

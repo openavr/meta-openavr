@@ -1,8 +1,7 @@
-From 273860f80f2757cd7e9ddada9ca29218dcdce2e8 Mon Sep 17 00:00:00 2001
+From 08217053545deb5b9d895ba4ee3283958355a97d Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
 Date: Sun, 20 Aug 2023 19:53:34 -0500
-Subject: [PATCH 03/12] j721e_beagleboneai64: just force
- k3-j721e-beagleboneai64
+Subject: [PATCH] j721e_beagleboneai64: just force k3-j721e-beagleboneai64
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---
@@ -13,10 +12,10 @@ Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
  4 files changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/arch/arm/mach-k3/j721e_init.c b/arch/arm/mach-k3/j721e_init.c
-index c97472c070..9345623506 100644
+index 5621906fd5..b88b54d214 100644
 --- a/arch/arm/mach-k3/j721e_init.c
 +++ b/arch/arm/mach-k3/j721e_init.c
-@@ -296,7 +296,7 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
+@@ -339,7 +339,7 @@ u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
  {
  	switch (boot_device) {
  	case BOOT_DEVICE_MMC1:
@@ -26,7 +25,7 @@ index c97472c070..9345623506 100644
  		return MMCSD_MODE_FS;
  	default:
 diff --git a/board/ti/j721e/evm.c b/board/ti/j721e/evm.c
-index e82349ef24..ad37126919 100644
+index d0077cebc4..a3af4a7e92 100644
 --- a/board/ti/j721e/evm.c
 +++ b/board/ti/j721e/evm.c
 @@ -467,8 +467,7 @@ static void setup_board_eeprom_env(void)
@@ -40,7 +39,7 @@ index e82349ef24..ad37126919 100644
  invalid_eeprom:
  	set_board_info_env_am6(name);
 diff --git a/board/ti/j721e/j721e.env b/board/ti/j721e/j721e.env
-index 492e6ae3c7..908aa86b63 100644
+index 8edbdd7ad6..2333c57e8b 100644
 --- a/board/ti/j721e/j721e.env
 +++ b/board/ti/j721e/j721e.env
 @@ -12,7 +12,7 @@ defined(CONFIG_TARGET_J721E_R5_EVM)

@@ -22,8 +22,5 @@ SRC_URI:append:beaglebone-ai64 = " \
     file://0007-bbb.io-make-sure-all-env-follow-ti-dtb.patch \
     file://0008-env_default-Allow-CONFIG_EXTRA_ENV_TEXT-to-override-.patch \
     file://0009-arm-mach-k3-am625-Add-support-for-UDA-FS.patch \
-    file://0010-board-ti-am62x-Add-am62x_beagleplay_-defconfigs-and-.patch \
-    file://0011-2023.04-beagleplay-these-small-configs-still-need-to.patch \
-    file://0012-configs-beagleplay_a53.config-drop-CONFIG_DFU_SF.patch \
-    file://0013-board-Change-reported-board-name-to-BBONEAI-64.patch \
+    file://0010-board-Change-reported-board-name-to-BBONEAI-64.patch \
 "

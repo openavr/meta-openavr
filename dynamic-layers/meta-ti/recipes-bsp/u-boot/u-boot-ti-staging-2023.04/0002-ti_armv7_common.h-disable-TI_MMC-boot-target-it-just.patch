@@ -1,8 +1,8 @@
-From 6fe7a83a8f71f5e4775fd737d7c22203b6af7d4c Mon Sep 17 00:00:00 2001
+From fcfc075269520a2956d1fbcf20b7e697e2e8ad53 Mon Sep 17 00:00:00 2001
 From: Robert Nelson <robertcnelson@gmail.com>
 Date: Sun, 20 Aug 2023 17:38:18 -0500
-Subject: [PATCH 02/12] ti_armv7_common.h: disable TI_MMC boot target, it just
- opps for me
+Subject: [PATCH] ti_armv7_common.h: disable TI_MMC boot target, it just opps
+ for me
 
 Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
 ---
