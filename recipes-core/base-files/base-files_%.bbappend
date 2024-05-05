@@ -1,6 +1,6 @@
 FILESEXTRAPATHS:append := "${THISDIR}/${PN}:"
 
-hostname = "openavr-dev"
+hostname = "openavr"
 
 do_install:append() {
     install -m 755 -d ${D}/config
