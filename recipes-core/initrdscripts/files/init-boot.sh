@@ -228,12 +228,15 @@ mount --move /data /rfs/data
 
 mkdir -p /rfs/data/etc
 
+SN_FNAME="/rfs/sys/firmware/devicetree/base/serial-number"
+
 if [ ! -e /rfs/data/etc/hostname ]
 then
-    HOSTNAME="openavr-$(grep '^Serial' /rfs/proc/cpuinfo | sha256sum | cut -c -6)"
-
-    if [ "${HOSTNAME}" != "openavr-" ]
+    ETC_HOSTNAME="$(cat /rfs/etc/hostname)"
+    if [ -e ${SN_FNAME} ]
     then
+        HOSTNAME="${ETC_HOSTNAME}-$(cat ${SN_FNAME} | sha256sum | cut -c -6)"
+
         echo "${HOSTNAME}" >/rfs/data/etc/hostname
         sed -e "s/^\(127[.]0[.]1[.]1\).*$/\1 ${HOSTNAME}/" /rfs/etc/hosts >/rfs/data/etc/hosts
     fi
