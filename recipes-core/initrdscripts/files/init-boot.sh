@@ -129,7 +129,7 @@ do
 done
 
 # Find the SD card block device
-if [ "$(cat /sys/block/mmcblk0/device/type)" == "SD" ]
+if [ "$(cat /sys/block/mmcblk0/device/type)" = "SD" ]
 then
     SD_BLK_DEV=mmcblk0
 else
@@ -216,7 +216,7 @@ mount --move /proc /rfs/proc
 mount --move /sys /rfs/sys
 mount --move /dev /rfs/dev
 
-if [ "${MOVE_OVERLAYS}" == "1" ]
+if [ "${MOVE_OVERLAYS}" = "1" ]
 then
     mount --move /.rfs-overlay /rfs/.rfs-overlay
     mount --move /.cfg-overlay /rfs/.cfg-overlay
