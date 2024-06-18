@@ -6,5 +6,5 @@ SRC_URI:append = " \
 
 do_install:prepend () {
     install -d ${D}${datadir}/ca-certificates
-    install -m 0644 ${WORKDIR}/*.crt ${D}${datadir}/ca-certificates/
+    install -m 0644 ${UNPACKDIR}/*.crt ${D}${datadir}/ca-certificates/
 }

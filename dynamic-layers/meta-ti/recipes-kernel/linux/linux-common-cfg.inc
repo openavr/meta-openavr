@@ -7,7 +7,7 @@ SRC_URI:append = "\
 "
 
 KERNEL_CONFIG_FRAGMENTS:append = "\
-    ${WORKDIR}/squashfs.cfg \
-    ${WORKDIR}/overlayfs.cfg \
-    ${WORKDIR}/dm-verity.cfg \
+    ${UNPACKDIR}/squashfs.cfg \
+    ${UNPACKDIR}/overlayfs.cfg \
+    ${UNPACKDIR}/dm-verity.cfg \
 "

@@ -12,7 +12,8 @@ SRC_URI = " \
     file://mosquitto-volatiles.conf \
 "
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
 
 do_install() {
     install -d ${D}${sysconfdir}/mosquitto/conf.d

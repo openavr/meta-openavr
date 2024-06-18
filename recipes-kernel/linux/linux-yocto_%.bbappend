@@ -6,6 +6,6 @@ SRC_URI += "\
 "
 
 KERNEL_CONFIG_FRAGMENTS += "\
-    ${WORKDIR}/overlayfs.cfg \
-    ${WORKDIR}/squashfs.cfg \
+    ${UNPACKDIR}/overlayfs.cfg \
+    ${UNPACKDIR}/squashfs.cfg \
 "

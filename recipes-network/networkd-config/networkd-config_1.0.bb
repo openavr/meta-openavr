@@ -11,7 +11,8 @@ SRC_URI = " \
     file://75-http.dnssd \
 "
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
 
 do_install() {
     install -m 0755 -d ${D}${systemd_unitdir}/network
